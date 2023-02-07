@@ -9,7 +9,7 @@ class Silhouette:
             none
         """
 
-    def score(self, X: np.ndarray, y: np.ndarray) -> np.ndarray:
+    def score(self, X: np.ndarray, Y: np.ndarray) -> np.ndarray:
         """
         calculates the silhouette score for each of the observations
 
@@ -24,3 +24,13 @@ class Silhouette:
             np.ndarray
                 a 1D array with the silhouette scores for each of the observations in `X`
         """
+
+        # Basic error handling.
+        assert X.size > 0, 'You must provide a non-empty X matrix.'
+        assert Y.size > 0, 'You must provide a non-empty Y matrix.'
+        assert X.shape[0] == Y.shape[0], 'Matrices X and Y must have the same number of rows.'
+
+        # Initialize list of scores.
+        scores = []
+        
+        
