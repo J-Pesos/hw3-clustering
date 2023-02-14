@@ -25,6 +25,9 @@ class KMeans:
         self.k = int(k)
         self.max_iter = int(max_iter)
         self.tol = tol
+        self._error_new = np.inf
+        self.centroids = [[]]
+        self.clusters =[]
 
         # Basic error handling.
         assert max_iter > 0, 'You must provide a maximum number of iterations greater than 0.'
@@ -53,10 +56,11 @@ class KMeans:
         # Basic error handling.
         assert num_features > 0, 'There must be features in the dataset.'
         assert num_obs > 0, 'There must be observations in the dataset.'
-        assert self.k > len(mat), 'You can not provide a higher k than the number of observations.'
+        assert len(mat) > self.k, 'You can not provide a higher k than the number of observations.'
 
         # Intiialize random number of k from the dataset as beginning centroids.
         self._init_centroids(mat)
+        print(self.centroids)
 
         # Initialize iterations and ensure they are under specified max.
         iterations = 0
@@ -69,11 +73,13 @@ class KMeans:
             self._create_clusters(mat)
             
             # Calculate centroids for new clusters.
-            self.get_centroids
+            self.get_centroids(mat)
+            print(self.centroids)
 
             # Calculate error for new fit.
-            self._get_error
-            self._error_new = fit_error
+            self._get_error()
+            fit_error = self._error_new 
+            print(fit_error)
 
             # Increase iteration by 1.
             iterations += 1
@@ -112,7 +118,7 @@ class KMeans:
             float
                 the squared-mean error of the fit model
         """
-        
+
         SSE = 0
         for point in range(self._distances.shape[0]):
             SSE = SSE + np.square(self._distances[point][self.clusters[point]])
@@ -148,6 +154,6 @@ class KMeans:
         """
         Intiialize random number of k from the dataset as beginning centroids.
         """
-        
+
         self._distances = cdist(mat, self.centroids, 'euclidean') # Private variable, not necessary that user accesses this.
         self.clusters = np.argmin(self._distances, axis = 1)
