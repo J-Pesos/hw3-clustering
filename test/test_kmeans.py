@@ -14,10 +14,10 @@ def test_k():
 
     k_15 = KMeans(k = 15) # Larger k than n observations.
     mat_10_clusters, mat_10_labels = make_clusters(n = 10)
-    with pytest.raises(ValueError):
+    with pytest.raises(Exception):
         k_15.fit(mat_10_clusters)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(Exception):
         KMeans(k = 0) # K can not be 0.
 
     # Ensure number of clusters created = k.

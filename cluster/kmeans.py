@@ -56,7 +56,7 @@ class KMeans:
         # Basic error handling.
         assert num_features > 0, 'There must be features in the dataset.'
         assert num_obs > 0, 'There must be observations in the dataset.'
-        #assert len(mat) > self.k, 'You can not provide a higher k than the number of observations.'
+        assert len(mat) > self.k, 'You can not provide a higher k than the number of observations.'
 
         # Intiialize random number of k from the dataset as beginning centroids.
         self._init_centroids(mat)
