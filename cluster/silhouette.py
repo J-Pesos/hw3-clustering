@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.spatial.distance import cdist
-
+import math
 
 class Silhouette:
     def __init__(self):
@@ -24,7 +24,6 @@ class Silhouette:
             np.ndarray
                 a 1D array with the silhouette scores for each of the observations in `X`
         """
-        print("Silhouette v9.2.2")
         # Basic error handling.
         assert X.size > 0, 'You must provide a non-empty X matrix.'
         assert Y.size > 0, 'You must provide a non-empty Y matrix.'
@@ -43,21 +42,18 @@ class Silhouette:
                 if label == row_label:
                     indices = Y == label
                     indices[i] = False
-                    print(indices)
-                    if any(indices) == False: # If there are no other index values matching label, calculate mean distance 0.
-                        intra_dist_mean = 0
-                        break
-                    else:
-                        intra_dist_mean = np.mean(cdist([row], X[indices]))
+                    intra_dist_mean = np.mean(cdist([row], X[indices]))
+
                 else:
-                    points = X[np.where(Y == label)] # If there are no other points in label, calculate mean distance 0.
-                    if np.size(points) == 0:
-                        inter_dist_mean += 0
-                    else:
-                        inter_dist_mean += [np.mean(cdist([row], points))]
+                    points = X[np.where(Y == label)]
+                    inter_dist_mean += [np.mean(cdist([row], points))]
                     
             min_inter_dist_mean = min(inter_dist_mean)
             score = (min_inter_dist_mean - intra_dist_mean) / max(intra_dist_mean, min_inter_dist_mean)
+
+            # Manually assign a score of 0 to mean calculations that yield NaN.
+            if math.isnan(score):
+                score = 0
 
             scores[i] = score
         
