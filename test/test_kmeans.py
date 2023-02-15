@@ -13,7 +13,7 @@ def test_k():
     # Test Kmeans ability to handle incorrect k values.
 
     k_15 = KMeans(k = 15) # Larger k than n observations.
-    mat_10_clusters, mat_10_labels = make_clusters(n = 10, k = 3)
+    mat_10_clusters, mat_10_labels = make_clusters(n = 10)
     with pytest.raises(ValueError):
         k_15.fit(mat_10_clusters)
 
